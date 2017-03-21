@@ -1,7 +1,6 @@
 # imghardchache
 
-imghardchache creates thumbs of images on disk.
-
+imghardchache creates thumbs of images as a file. You can use this with a static site generator to generate static images.
 
 To create a thumb, call the URL of the original image (e.g. `/test.jpg`) with an `__` and the size in pixel
 (`/test__255.jpg`).

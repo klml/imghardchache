@@ -8,6 +8,15 @@
 $originalname = "" ;
 $requestedpath = "" ; // path for cache
 
+// purge cache
+if(isset( $_GET['purge'] )) {
+    chdir( $requestedpath );
+    foreach (glob( "*__*.jpg") as $filename) { // just if orignal and cache dir is the same
+        unlink( $filename );
+        echo 'removed: '. $filename . '<br />';
+    }
+    die('all cache cleared');
+}
 
 // Start caching
 require_once('PHP_image_resize/smart_resize_image.function.php');

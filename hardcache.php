@@ -6,7 +6,8 @@
 
 // Settings
 $originalname = "" ;
-$requestedname = "" ;
+$requestedpath = "" ; // path for cache
+
 
 // Start caching
 require_once('PHP_image_resize/smart_resize_image.function.php');
@@ -14,12 +15,14 @@ require_once('PHP_image_resize/smart_resize_image.function.php');
 $requestedname = basename($_SERVER['REQUEST_URI']);  
 if ( $requestedname == basename($_SERVER['SCRIPT_NAME']) ) die("get a image");  
 
-
 $pattern = '/(.*)__(.*)\.(.*)/i';
 $replacementoriginal = '${1}.$3';
 $replacementsize = '$2';
 $originalname .= preg_replace($pattern, $replacementoriginal, $requestedname);
 $width = preg_replace($pattern, $replacementsize, $requestedname);
+
+
+$requestedpath .= $requestedname ;
 
 //call the function (when passing path to pic)
 $resized = smart_resize_image( 
@@ -28,7 +31,7 @@ $resized = smart_resize_image(
     $width ,
     '0' , //height will be ignored, due proportional true
     true , //  proportional
-    $requestedname , 
+    $requestedpath , 
     false ,
     false ,
     100 
@@ -37,7 +40,7 @@ $resized = smart_resize_image(
 // after creating image. send it, only the first time, 
 if ( $resized == "1" ){
     header('Content-type: image');
-    readfile( $requestedname );
+    readfile( $requestedpath );
     } else {
     echo "there is no " . $originalname ;
 }

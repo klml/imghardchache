@@ -46,10 +46,10 @@ $resized = smart_resize_image(
     100 
 );
 
-// after creating image. send it, only the first time, 
+// after creating image. redirect to new image
 if ( $resized == "1" ){
-    header('Content-type: image');
-    readfile( $requestedpath );
+    header("HTTP/1.1 301 Moved Permanently"); 
+    header("location: " . $requestedpath ); 
     } else {
     echo "there is no " . $originalname ;
 }

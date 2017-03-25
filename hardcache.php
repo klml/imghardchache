@@ -49,8 +49,10 @@ $resized = smart_resize_image(
 // after creating image. redirect to new image
 if ( $resized == "1" ){
     header("HTTP/1.1 301 Moved Permanently"); 
-    header("location: " . $requestedpath ); 
+    header("location: " . $requestedpath );
+    exit ; 
     } else {
     echo "there is no " . $originalname ;
+    exit ; 
 }
 ?>

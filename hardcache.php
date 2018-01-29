@@ -10,10 +10,12 @@ $requestedpath = "" ; // path for cache
 
 // purge cache
 if(isset( $_GET['purge'] )) {
-    chdir( $requestedpath );
-    foreach (glob( "*__*.jpg") as $filename) { // just if orignal and cache dir is the same
-        unlink( $filename );
-        echo 'removed: '. $filename . '<br />';
+    $glob = glob( $requestedpath  . '*' );
+    foreach($glob as $filename) { // just if orignal and cache dir is the same
+        if(preg_match('/.*__[0-9]*\..*/', $filename)) {
+            unlink( $filename );
+            echo 'removed: '. $filename . '<br />';
+        }
     }
     die('all cache cleared');
 }
@@ -24,7 +26,7 @@ require_once('PHP_image_resize/smart_resize_image.function.php');
 $requestedname = basename($_SERVER['REQUEST_URI']);  
 if ( $requestedname == basename($_SERVER['SCRIPT_NAME']) ) die("get a image");  
 
-$pattern = '/(.*)__(.*)\.(.*)/i';
+$pattern = '/(.*)__([0-9]+)\.(.*)/i';
 $replacementoriginal = '${1}.$3';
 $replacementsize = '$2';
 $originalname .= preg_replace($pattern, $replacementoriginal, $requestedname);
